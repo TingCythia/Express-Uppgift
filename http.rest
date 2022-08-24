@@ -1,0 +1,19 @@
+GET http://localhost:5000/userRouter
+
+###
+
+
+GET  http://localhost:5000/userRouter/1
+
+
+###
+POST http://localhost:5000/userRouter
+ Content-Type: application/json
+
+    {
+        "id" : 3,
+        "isPublic": true,
+        "name": "user3",
+        "companies": "com3",
+        "books": "book3"
+    }

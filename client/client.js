@@ -2,10 +2,10 @@
 const getAllUsers = async (event) => {
 try{
 
-    fetch("http://localhost:5000/route").then((response) => {
+    fetch("http://localhost:5000/userRouter").then((response) => {
         return response.json()
     }).then((body) =>{
-        console.log(body)
+   console.log(body)
     }).catch((err) =>{
         throw err
     })
@@ -13,7 +13,6 @@ try{
 }catch(err){
   console.error(err)
 }
-
 }
 
 document.getElementById("SaveBtn").addEventListener("click", getAllUsers)
