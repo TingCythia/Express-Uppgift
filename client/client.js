@@ -1,11 +1,12 @@
-
+var userObj =[]
 const getAllUsers = async (event) => {
 try{
-
     fetch("http://localhost:5000/userRouter").then((response) => {
         return response.json()
     }).then((body) =>{
-   console.log(body)
+    console.log(body)
+    userObj = body;
+    addUserLists();
     }).catch((err) =>{
         throw err
     })
@@ -15,4 +16,46 @@ try{
 }
 }
 
+
+const addNewUsers = async (event) => {
+    try {
+
+        const newUserToAdd = {
+            id : 4,
+            isPublic: true,
+            name: "user4",
+            companies: "com4",
+            books: "book4"
+        }
+
+        const response = await fetch("http://localhost:5000/userRouter", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newUserToAdd)
+        })
+        const body = await response.json()
+        console.log(body)
+    } catch(err) {
+
+    }
+}
+
 document.getElementById("SaveBtn").addEventListener("click", getAllUsers)
+document.getElementById("GetAllBtn").addEventListener("click", addNewUsers)
+
+function addUserLists(){
+ 
+   userObj.forEach((user)=>{
+    var ul = '<ul>';
+    ul += '<li>'+user.id+'</li>';
+    ul += '<li>'+user.name+'</li>';
+    ul += '<li>'+user.books+'</li>';
+    ul += '<li>'+user.companies+'</li>';
+    ul += '</ul>'
+    document.getElementById("users").innerHTML += ul;
+    
+   })
+   
+}
