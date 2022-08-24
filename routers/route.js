@@ -36,13 +36,13 @@ router.get("/:id", (req, res) =>{
      const foundUser = userList.find((user)=>{
         if(user.id == req.params.id) {
             return true
+            
         }
      })
 
      if(!foundUser) {
         throw new Error("Id does not exists..")
      }
-
      res.json(foundUser)
     }catch(err){
      res.status(404).json(err.message)

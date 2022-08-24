@@ -5,6 +5,10 @@ GET http://localhost:5000/userRouter
 
 GET  http://localhost:5000/userRouter/1
 
+###
+
+
+GET  http://localhost:5000/userRouter/2
 
 ###
 POST http://localhost:5000/userRouter

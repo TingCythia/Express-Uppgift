@@ -16,6 +16,21 @@ try{
 }
 }
 
+const getById = async (event) => {
+    try{
+        fetch("http://localhost:5000/userRouter/1").then((response) => {
+            return response.json()
+        }).then((body) =>{
+        console.log(body)
+        }).catch((err) =>{
+            throw err
+        })
+    
+    }catch(err){
+      console.error(err)
+    }
+    }
+
 
 const addNewUsers = async (event) => {
     try {
@@ -44,6 +59,7 @@ const addNewUsers = async (event) => {
 
 document.getElementById("SaveBtn").addEventListener("click", getAllUsers)
 document.getElementById("GetAllBtn").addEventListener("click", addNewUsers)
+document.getElementById("GetById").addEventListener("click", getById)
 
 function addUserLists(){
  
