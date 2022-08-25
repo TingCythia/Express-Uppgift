@@ -57,8 +57,8 @@ const addNewUsers = async (event) => {
     }
 }
 
-document.getElementById("SaveBtn").addEventListener("click", getAllUsers)
-document.getElementById("GetAllBtn").addEventListener("click", addNewUsers)
+document.getElementById("getAllBtn").addEventListener("click", getAllUsers)
+document.getElementById("addNewUser").addEventListener("click", addNewUsers)
 document.getElementById("GetById").addEventListener("click", getById)
 
 function addUserLists(){
