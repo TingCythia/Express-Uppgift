@@ -1,37 +1,14 @@
-import express from "express"
+import express from "express";
+import { nanoid } from "nanoid"
+export const router = express.Router();
 
-export const router = express.Router()
 
-const userList = getUserList();
-
-function getUserList (){
-    return [
-    {
-        id: 1,
-        isPublic: true,
-        name: 'user1',
-        companies: 'com1',
-        books: 'book1'
-    },
-    {
-        id: 2,
-        isPublic: true,
-        name: 'KK',
-        companies: 'com2',
-        books: 'boo2'
-    }
-]
-}
 
 router.get("/", (req, res) =>{
-    try{
-        res.json(userList)
-    }catch(err){
-        res.status(500).json(err.message)
-    }
+res.json()
 })
 
-router.get("/:id", (req, res) =>{
+/* router.get("/:id", (req, res) =>{
     try {
      const foundUser = userList.find((user)=>{
         if(user.id == req.params.id) {
@@ -68,10 +45,11 @@ router.post("/", (req, res)=>{
         res.status(400).json(err.message)
     }
 
-})
+}) */
 
 router.use((err, req, res, next) =>{
     console.log(err.status)
     console.log(err.message)
     res.status(500).json(err)
 })
+

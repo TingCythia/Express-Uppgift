@@ -1,12 +1,10 @@
-var userObj =[]
+
 const getAllUsers = async (event) => {
 try{
-    fetch("http://localhost:5000/userRouter").then((response) => {
+    fetch("https://jsonplaceholder.typicode.com/posts/1").then((response) => {
         return response.json()
     }).then((body) =>{
     console.log(body)
-    userObj = body;
-    addUserLists();
     }).catch((err) =>{
         throw err
     })
@@ -16,7 +14,7 @@ try{
 }
 }
 
-const getById = async (event) => {
+/* const getById = async (event) => {
     try{
         fetch("http://localhost:5000/userRouter/1").then((response) => {
             return response.json()
@@ -55,13 +53,13 @@ const addNewUsers = async (event) => {
     } catch(err) {
 
     }
-}
+} */
 
 document.getElementById("getAllBtn").addEventListener("click", getAllUsers)
-document.getElementById("addNewUser").addEventListener("click", addNewUsers)
-document.getElementById("GetById").addEventListener("click", getById)
+/* document.getElementById("addNewUser").addEventListener("click", addNewUsers)
+document.getElementById("GetById").addEventListener("click", getById) */
 
-function addUserLists(){
+/* function addUserLists(){
  
    userObj.forEach((user)=>{
     var ul = '<ul>';
@@ -75,3 +73,4 @@ function addUserLists(){
    })
    
 }
+ */
