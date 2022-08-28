@@ -1,35 +1,36 @@
 
-const getAllUsers = async (event) => {
-try{
-    fetch("https://jsonplaceholder.typicode.com/posts/1").then((response) => {
-        return response.json()
-    }).then((body) =>{
-    console.log(body)
-    }).catch((err) =>{
-        throw err
-    })
+const getAllUsers = async (params) => {
+    try {
 
-}catch(err){
-  console.error(err)
-}
-}
-
-/* const getById = async (event) => {
-    try{
-        fetch("http://localhost:5000/userRouter/1").then((response) => {
+        fetch("http://localhost:5000/userRouter").then((response) => {
             return response.json()
+        }).then((body) => {
+            console.log(body)
+        }).catch((err) => {
+            throw err
+        })
+
+    } catch(err) {
+        console.error(err)
+    }
+}
+
+let inputVal = document.getElementById("inputId").value; 
+const getById = async (event) => {
+    try{
+        fetch(`http://localhost:5000/userRouter/${inputVal}`).then((response) => {
+        return response.json()
         }).then((body) =>{
         console.log(body)
         }).catch((err) =>{
             throw err
         })
-    
     }catch(err){
       console.error(err)
     }
-    }
+    } 
 
-
+/* 
 const addNewUsers = async (event) => {
     try {
 
@@ -56,8 +57,8 @@ const addNewUsers = async (event) => {
 } */
 
 document.getElementById("getAllBtn").addEventListener("click", getAllUsers)
-/* document.getElementById("addNewUser").addEventListener("click", addNewUsers)
-document.getElementById("GetById").addEventListener("click", getById) */
+/* document.getElementById("addNewUser").addEventListener("click", addNewUsers)*/
+document.getElementById("GetById").addEventListener("click", getById) 
 
 /* function addUserLists(){
  
