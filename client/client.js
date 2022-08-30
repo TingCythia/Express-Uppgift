@@ -15,51 +15,56 @@ const getAllUsers = async (params) => {
     }
 }
 
-let inputVal = document.getElementById("inputId").value; 
 const getById = async (event) => {
+    let inputVal = document.getElementsByTagName("input")[0].value; 
     try{
-        fetch(`http://localhost:5000/userRouter/${inputVal}`).then((response) => {
+        fetch(`http://localhost:5000/userRouter/${inputVal}`)
+        .then((response) => {
         return response.json()
-        }).then((body) =>{
+        })
+        .then((body) =>{
         console.log(body)
-        }).catch((err) =>{
-            throw err
         })
     }catch(err){
-      console.error(err)
+      console.log(err.message)
     }
     } 
 
-/* 
+
 const addNewUsers = async (event) => {
-    try {
+    
+    let addNewUser = {
+            userId: 5,
+            title: "titlevalue",
+            body: "bodyvalue"
+        };
 
-        const newUserToAdd = {
-            id : 4,
-            isPublic: true,
-            name: "user4",
-            companies: "com4",
-            books: "book4"
-        }
-
-        const response = await fetch("http://localhost:5000/userRouter", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newUserToAdd)
-        })
-        const body = await response.json()
+    let options =      
+         {
+            method:'POST',
+            body:JSON.stringify({addNewUser}),
+            header: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },      
+           }
+           
+    try{
+     fetch("http://localhost:5000/userRouter", options)
+    .then((res)=>{
+        return res.json()
+    }).then((body)=>{
         console.log(body)
-    } catch(err) {
-
-    }
-} */
+    }).catch((err)=>{
+        throw err
+    })}catch(err){
+        console.log(err.message)
+      }
+}
 
 document.getElementById("getAllBtn").addEventListener("click", getAllUsers)
-/* document.getElementById("addNewUser").addEventListener("click", addNewUsers)*/
 document.getElementById("GetById").addEventListener("click", getById) 
-
+document.getElementById("addNewUser").addEventListener("click", addNewUsers)
 /* function addUserLists(){
  
    userObj.forEach((user)=>{
