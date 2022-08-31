@@ -15,3 +15,5 @@ fetch function use nodefetch so both promise syntax and async & await syntax wor
 After fetch function when use POST method to generate new User id part, id use nanoid function. 
 
 Client side will send request since server.js have made express.static('/client), client file have built simple index.html to display input value and button function, by fetching url endpoint through router, then server response back to client the response results. 
+
+http.rest have tested all 5 function, get req.body, get by id, post new user, put by update title, delete userId 
