@@ -15,63 +15,20 @@ export const router = express.Router();
               "Content-Type" : "application/json"
             }
         };
-
-        // promise syntax
-       fetch(url, options)
-       .then(res => res.json())
-       .then(body=> console.log("This is body", body))
-       .catch(err => console.error('error:' + err));  
    
         try {
             let response =  await fetch(url, options);
-            response = await response.json();
-            res.status(200).json(response);
+            let body = await response.json();
+            let userList = [body]
+            console.log(userList)
+            res.status(200).json(userList);
         } catch (err) {
             console.log(err);
-            res.status(500).json({msg: `Internal Server Error.`});
+            res.status(404).json(err.message)
         } 
     });
 
-    /* Get all specific ID */
-router.get("/:id",  async (req, res, next) =>{
-    const url =
-            'https://jsonplaceholder.typicode.com/posts/1';
-        const options = {
-            method: 'GET',
-            headers: {
-              "Content-Type" : "application/json"
-            }
-        };
-        // promise syntax
-        let id
-        fetch(url, options)
-            .then(res => res.json())
-            .then(body=> id = body.id).then(()=>console.log(id)) 
-            .catch(err => console.error('error:' + err));  
-        
-            try {
-                let response = await fetch(url, options);
-                let body = await response.json();
-                console.log(body)
 
-                let userList = [body]
-                console.log(userList)
-                const foundUser = userList.find((user)=>{
-                   if(user.id == req.params.id) {
-                       console.log(user.id)
-                       return true
-                   }
-                })
-                if(!foundUser) {
-                    throw new Error("Id does not exists..")
-                 }
-                 res.json(foundUser)
-            } catch (err) {
-                console.log(err);
-                res.status(404).json(err.message)
-            };
-            next()
-})
 
 /* post new user  */
  router.post("/", async (req, res)=>{
@@ -102,6 +59,47 @@ router.get("/:id",  async (req, res, next) =>{
 
 })  
 
+    /* Get all specific ID */
+    router.get("/:id",  async (req, res, next) =>{
+        const url =
+                'https://jsonplaceholder.typicode.com/posts/1';
+            const options = {
+                method: 'GET',
+                headers: {
+                  "Content-Type" : "application/json"
+                }
+            };
+            // promise syntax
+            let id
+            fetch(url, options)
+                .then(res => res.json())
+                .then(body=> id = body.id).then(()=>console.log(id)) 
+                .catch(err => console.error('error:' + err));  
+            
+                try {
+                    let response = await fetch(url, options);
+                    let body = await response.json();
+                    console.log(body)
+    
+                    let userList = [body]
+                    console.log(userList)
+                    const foundUser = userList.find((user)=>{
+                       if(user.id == req.params.id) {
+                           console.log(user.id)
+                           return true
+                       }
+                    })
+                    if(!foundUser) {
+                        throw new Error("Id does not exists..")
+                     }
+                     res.json(foundUser)
+                } catch (err) {
+                    console.log(err);
+                    res.status(404).json(err.message)
+                };
+                next()
+    })
+
 
 /* Put value */
 router.put("/", async (req, res) => {
@@ -127,7 +125,7 @@ router.put("/", async (req, res) => {
          userList[indexToUpdate] = req.body
          
          console.log(req.body.title)
-         res.json(`User with old name ${titleBeforeUpdate} has been updated to  ${userList[indexToUpdate].title}!`)
+         res.json(`User with old name ${titleBeforeUpdate} has been updated to  "${userList[indexToUpdate].title}"!`)
 
     } catch (err) {
         console.log(err);
@@ -159,7 +157,7 @@ router.delete("/:userId", async (req, res) => {
          userList.splice(indexToRemove, 1)
          
          console.log("Remove success")
-         res.json(`Users with title ${titleToRemove} is removed!`)
+         res.json(`Users with title "${titleToRemove} "is removed!`)
 
     } catch (err) {
         console.log(err);

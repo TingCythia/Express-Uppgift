@@ -1,9 +1,11 @@
 GET http://localhost:5003
 
 ###
+GET http://localhost:5003/userRouter
 
+###
 
-GET http://localhost:5003/userRouter/2
+GET http://localhost:5003/userRouter/1
 
 
 ###
