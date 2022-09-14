@@ -11,30 +11,33 @@
     <h1>GET POST PUT DELETE</h1>
     <h3>Router Middleware Method</h3>
     <h3 style="color:blue">Fetch from open API https://jsonplaceholder.typicode.com/posts/1</h3>
-    <button id="getAllBtn">Show current users</button>
-    <div id="showAllUsers" style="background-color:lightgreen"></div>
+    <button id="getAllBtn" >Show current users</button>  
+       
+        <div id="showAllUsers" style="background-color:lightgreen;"></div>
+        
     <br><br>
 
-    Add UserID:<input type ="text" id ="userId"><br><br>
-    Add User Title:<input type ="text" id ="title"><br><br>
-    Add User Body:<input type ="text" id ="body"><br><br>
+    
+    Add User Title:<input  id ="title"><br><br>
+    Add User Body:<input  id ="body"><br><br>
     <button id="addNewUser">Add new user </button>
     <div id="showNewUser" style="background-color:lightgreen"></div>
     <br><br>
    
-    <input type ="number" id ="inputId">
+    <input id ="inputId">
     <br><br>
     <button id="GetById">Get by ID</button> 
     <div id="showGetIdValue" style="background-color:lightgreen"></div>
     <br><br>
 
-    <input type ="text" id ="updateTitle">
+    <input placeholder="ID" id ="findID">
+    <input placeholder="update title" type ="text" id ="updateTitle">
     <br><br>
-    <button id="update">Update Put Body Value</button> 
+    <button id="update">Update Put Title Value</button> 
     <div id="showUpdateValue" style="background-color:lightgreen"></div>
     <br><br>
     
-    <input type ="number" id ="delUserId">
+    <input id ="delUserId" placeholder="Id you want to delete">
     <br><br>
     <button id="delete">Delete by user id</button> 
     <div id="showDeleteValue" style="background-color:rgb(233, 95, 95)"></div>

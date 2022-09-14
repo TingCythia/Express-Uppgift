@@ -8,7 +8,7 @@ const port = 5003
 app.use(express.json())
 app.use("/", express.static("./client")) 
 app.use("/userRouter", router)
-
+app.use("/userRouter/externalApi", router)
 
 app.use((err, req, res, next) => {
     console.log(err.status)
