@@ -43,26 +43,6 @@
 )
 
 
-const show = async (e)=>{
-    let originObj=document.getElementById("showAllUsers")
-
-    console.log(arr3)
-    arr3.forEach((b) => {
-        const ul = document.createElement("ul");
-        const li = document.createElement("li");
-        li.textContent ="ID: "+ b.id
-        const li3 = document.createElement("li");
-        li3.textContent ="User Title: "+ b.title
-        const li4 = document.createElement("li");
-        li4.textContent ="User description: "+ b.body
-        ul.append(li,li3,li4)
-        originObj.appendChild( ul )         
-
-    })
-}
-
-
-
 const getById = async (event) => {
     let inputVal = document.getElementById("inputId").value;
     let showGetIdValue = document.getElementById("showGetIdValue")
