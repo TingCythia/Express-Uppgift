@@ -1,46 +1,31 @@
 
- var obj1;
-
- fetch('http://localhost:5003/userRouter/externalApi')
-  .then(res => res.json())
-  .then(data => obj1 =data)
-  .then(() => console.log(obj1))
- 
-
 
   const getAllUsers = async (params) => { 
     try {
-        var array =[obj1]
         
         let originObj = document.getElementById("showAllUsers")
         originObj.innerHTML=""
-        await fetch("http://localhost:5003/userRouter")
-        .then((response) => {
-            return response.json()
-        }).then((body) => {
-        let array3 = array.concat(body)
-          array3.map((b) => {
+        let response = await fetch("http://localhost:5003/userRouter")
+        let userlist = await response.json()
+        
+        userlist.map((b) => {
             const ul = document.createElement("ul");
             const li = document.createElement("li");
             li.textContent ="ID: "+ b.id
+            const li2 = document.createElement("li");
+            li2.textContent ="Gender: "+ b.gender
             const li3 = document.createElement("li");
-            li3.textContent ="User Title: "+ b.title
+            li3.textContent ="First Name: "+ b.firstName
             const li4 = document.createElement("li");
-            li4.textContent ="User description: "+ b.body
-            ul.append(li,li3,li4)
-            originObj.append(ul)         
-        })
-        }).catch((err) => {
-            throw err
-        })
+            li4.textContent ="Last Name: "+ b.lastName
+            ul.append(li,li2,li3,li4)
+            originObj.append(ul)     
+        })    
+        
     } catch(err) {
         console.error(err)
     }
  }  
-
-
- document.getElementById("getAllBtn").addEventListener("click", getAllUsers
-)
 
 
 const getById = async (event) => {
@@ -53,9 +38,16 @@ const getById = async (event) => {
         })
         .then((body) =>{
         console.log(body)
+        if(typeof body == "string"){
+            showGetIdValue.innerHTML = body
+            return
+        }
         showGetIdValue.innerHTML=`
         <ul>
         <li>ID is : ${body.id}</li>
+        <li>FirstName is : ${body.firstName}</li>
+        <li>LastName is : ${body.lastName}</li>
+        <li>Gender is : ${body.gender}</li>
         </ul>
         `
         })
@@ -65,10 +57,29 @@ const getById = async (event) => {
     } 
 
 
+const getRandomUser = (e) =>{
+    fetch("http://localhost:5003/userRouter/externalApi", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+    })
+    .then(res => res.json())
+    .then(body => {
+     console.log(body)
+     showNewUser.innerHTML=body
+    })
+    .catch(err => console.log(err));
+}
+
+document.getElementById("randomUser").addEventListener("click", getRandomUser)
+
 const addNewUsers = async (event) => {
 
-    let inputTitle = document.getElementById("title").value;
-    let inputBody = document.getElementById("body").value;
+    let Firstname = document.getElementById("firstname").value;
+    let lastName = document.getElementById("lastname").value;
+    let gender = document.getElementById("gender").value;
     let showNewUser= document.getElementById("showNewUser")
     fetch("http://localhost:5003/userRouter", {
         method: "POST",
@@ -77,16 +88,15 @@ const addNewUsers = async (event) => {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            title: inputTitle,
-            body:inputBody
+            first_name: Firstname,
+            last_name: lastName,
+            gender:gender
         })
     })
     .then(res => res.json())
     .then(data => {
      console.log(data)
-     showNewUser.innerHTML=`
-     user has added success!
-     `
+     showNewUser.innerHTML=data
     })
     .catch(err => console.log(err));
 
@@ -94,9 +104,11 @@ const addNewUsers = async (event) => {
 
 const updateUsers = async (event) => {
     let findID = document.getElementById("findID").value;
-    let updateTitle = document.getElementById("updateTitle").value;
+    const Firstname= document.getElementById("updateFirstName").value;
+    const lastName = document.getElementById("lastname").value;
+    const gender = document.getElementById("gender").value;
     let showUpdateValue= document.getElementById("showUpdateValue")
-    fetch("http://localhost:5003/userRouter", {
+    fetch(`http://localhost:5003/userRouter/${findID}`, {
         method: "PUT",
         headers: {
             Accept: "application/json",
@@ -104,7 +116,9 @@ const updateUsers = async (event) => {
         },
         body: JSON.stringify({ 
             id:findID, 
-            title: updateTitle,
+            firstName: Firstname,
+            lastName:lastName,
+            gender: gender
         })
     })
     .then(res => res.json())
@@ -144,7 +158,7 @@ const deleteByUserId= async (event) => {
 
     } 
 
-
+document.getElementById("getAllBtn").addEventListener("click", getAllUsers)
 document.getElementById("GetById").addEventListener("click", getById) 
 document.getElementById("addNewUser").addEventListener("click", addNewUsers)
 document.getElementById("update").addEventListener("click", updateUsers)

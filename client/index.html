@@ -11,6 +11,8 @@
     <h1>GET POST PUT DELETE</h1>
     <h3>Router Middleware Method</h3>
     <h3 style="color:blue">Fetch from open API https://jsonplaceholder.typicode.com/posts/1</h3>
+
+    <button id="randomUser">Hämta användare ifrån externt api</button>
     <button id="getAllBtn" >Show current users</button>  
        
         <div id="showAllUsers" style="background-color:lightgreen;"></div>
@@ -18,8 +20,9 @@
     <br><br>
 
     
-    Add User Title:<input  id ="title"><br><br>
-    Add User Body:<input  id ="body"><br><br>
+    First Name:<input  id ="firstname"><br><br>
+    Last Name:<input  id ="lastname"><br><br>
+    Gender:<input  id ="gender"><br><br>
     <button id="addNewUser">Add new user </button>
     <div id="showNewUser" style="background-color:lightgreen"></div>
     <br><br>
@@ -31,9 +34,9 @@
     <br><br>
 
     <input placeholder="ID" id ="findID">
-    <input placeholder="update title" type ="text" id ="updateTitle">
+    <input placeholder="Change Firstname" type ="text" id ="updateFirstName">
     <br><br>
-    <button id="update">Update Put Title Value</button> 
+    <button id="update">Change FirstName</button> 
     <div id="showUpdateValue" style="background-color:lightgreen"></div>
     <br><br>
     
