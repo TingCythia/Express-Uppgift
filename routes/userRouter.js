@@ -1,173 +1,143 @@
 import express from "express";
 import fetch from "node-fetch";
-import { nanoid } from "nanoid"  
+import { nanoid } from "nanoid"
 export const router = express.Router();
 
 
+let userList = [];
+let user;
+let randomUser;
+
 
 /* Get all request body */
-    router.get(`/`, async function (req, res) {
+router.get(`/`, async function (req, res) {
+    try {
+        res.json(userList)
+    } catch (err) {
+        console.log(err);
+        res.status(404).json(err.message)
+    }
+});
+/* Get external api */
+router.post(`/externalApi`, async function (req, res) {
+    try {
         const url =
-            'https://jsonplaceholder.typicode.com/posts/1';
-        const options = {
-            method: 'GET',
-            headers: {
-              "Content-Type" : "application/json"
-            }
-        };
-   
-        try {
-            let response =  await fetch(url, options);
-            let body = await response.json();
-            let userList = [body]
-            console.log(userList)
-            res.status(200).json(userList);
-        } catch (err) {
-            console.log(err);
-            res.status(404).json(err.message)
-        } 
-    });
-
-
-
-/* post new user  */
- router.post("/", async (req, res)=>{
-
-    const url =
-        'https://jsonplaceholder.typicode.com/posts/1';
-
-    try{
+            'https://random-data-api.com/api/v2/users?size=2&is_xml=true';
         let response = await fetch(url);
         let body = await response.json();
-        console.log(body)
-        let userList = [body]
-        console.log(userList)
-        
-        let user = {
-            id: nanoid(),
-            title: req.body.title,
-            userId:req.body.userId,
-            body:req.body.body
-           }
+        randomUser = {
+            id: body[0].id,
+            firstName: body[0].first_name,
+            lastName: body[0].last_name,
+            gender: body[0].gender
+        }
+        userList.push(randomUser)
+        console.log(randomUser)
+        res.json("Random user from Api is saved")
+    } catch (err) {
+        console.log(err);
+        res.status(404).json(err.message)
+    }
+});
 
+/* post new user  */
+router.post("/", async (req, res) => {
+    try {
+        const userExists = userList.find(users => users.firstName == req.body.first_name)
+        if (userExists) {
+            throw new Error("User already exists")
+        }
+        user = {
+            id: nanoid(),
+            firstName: req.body.first_name,
+            lastName: req.body.last_name,
+            gender: req.body.gender
+        }
         userList.push(user)
-        console.log(userList)
-        return res.status(201).json(userList)
-    }catch(err){
+        return res.status(201).json("New user add success")
+
+    } catch (err) {
         res.status(400).json(err.message)
     }
 
-})  
+})
 
-    /* Get all specific ID */
-    router.get("/:id",  async (req, res, next) =>{
-        const url =
-                'https://jsonplaceholder.typicode.com/posts/1';
-            const options = {
-                method: 'GET',
-                headers: {
-                  "Content-Type" : "application/json"
-                }
-            };
-            // promise syntax
-            let id
-            fetch(url, options)
-                .then(res => res.json())
-                .then(body=> id = body.id).then(()=>console.log(id)) 
-                .catch(err => console.error('error:' + err));  
-            
-                try {
-                    let response = await fetch(url, options);
-                    let body = await response.json();
-                    console.log(body)
-    
-                    let userList = [body]
-                    console.log(userList)
-                    const foundUser = userList.find((user)=>{
-                       if(user.id == req.params.id) {
-                           console.log(user.id)
-                           return true
-                       }
-                    })
-                    if(!foundUser) {
-                        throw new Error("Id does not exists..")
-                     }
-                     res.json(foundUser)
-                } catch (err) {
-                    console.log(err);
-                    res.status(404).json(err.message)
-                };
-                next()
-    })
+/* Get all specific ID */
+router.get("/:id", async (req, res) => {
+
+    // promise syntax
+    try {
+
+        const foundUser = userList.find((user) => {
+            if (user.id == req.params.id) {
+                console.log(user.id)
+                return true
+            }
+        })
+        if (!foundUser) {
+            throw new Error("Id does not exists..")
+        }
+        res.json(foundUser)
+    } catch (err) {
+        console.log(err);
+        res.status(404).json(err.message)
+    };
+
+})
 
 
 /* Put value */
-router.put("/", async (req, res) => {
-    const url =
-    'https://jsonplaceholder.typicode.com/posts/1';
-    try {
+router.put("/:id", async (req, res) => {
 
-        let response = await fetch(url);
-        let body = await response.json();
-        console.log(body)
-        let userList = [body]
-        console.log(userList)
+    try {
 
         const indexToUpdate = userList.findIndex(user =>
-          user.id == req.body.id)
-           
-        if(indexToUpdate == -1) {
+            user.id == req.params.id)
+        if (indexToUpdate == -1) {
             throw new Error("Can not find update value")
-         }
-         
-         const titleBeforeUpdate = userList[indexToUpdate].title
+        }
 
-         userList[indexToUpdate] = req.body
-         
-         console.log(req.body.title)
-         res.json(`User with old name ${titleBeforeUpdate} has been updated to  "${userList[indexToUpdate].title}"!`)
+
+        const titleBeforeUpdate = userList[indexToUpdate].firstName
+
+        userList[indexToUpdate] = req.body
+
+        console.log(req.body)
+        res.json(`User with old name ${titleBeforeUpdate} has been updated to  "${userList[indexToUpdate].firstName}"!`)
 
     } catch (err) {
         console.log(err);
         res.status(404).json(err.message)
     };
-}) 
+})
 
 /* Delete value */
-router.delete("/:userId", async (req, res) => {
-    const url =
-    'https://jsonplaceholder.typicode.com/posts/1';
+router.delete("/:id", async (req, res) => {
+
     try {
-
-        let response = await fetch(url);
-        let body = await response.json();
-        console.log(body)
-        let userList = [body]
-        console.log(userList)
-
         const indexToRemove = userList.findIndex(user =>
-          user.id == req.params.userId)
-           
-        if(indexToRemove == -1) {
-            throw new Error("Can not find delete value")
-         }
-         
-         const titleToRemove = userList[indexToRemove].title
+            user.id == req.params.id)
 
-         userList.splice(indexToRemove, 1)
-         
-         console.log("Remove success")
-         res.json(`Users with title "${titleToRemove} "is removed!`)
+        if (indexToRemove == -1) {
+            throw new Error("Can not find delete value")
+        }
+
+        const titleToRemove = userList[indexToRemove].firstName
+
+        userList.splice(indexToRemove, 1)
+
+        console.log("Remove success")
+        res.json(`Users with title "${titleToRemove} "is removed!`)
 
     } catch (err) {
         console.log(err);
         res.status(404).json(err.message)
     };
-}) 
+})
 
 
 
-router.use((err, req, res, next) =>{
+router.use((err, req, res, next) => {
     console.log(err.status)
     console.log(err.message)
     res.status(500).json(err)
